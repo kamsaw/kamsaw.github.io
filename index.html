@@ -1,1 +1,108 @@
-# Kamil Sawicki <a href="https://github.com/kamsaw">github.com/kamsaw</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Intro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #00ff00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .typewriter-text {
+            font-size: 2rem;
+            letter-spacing: 2px;
+            border-right: 2px solid #00ff00;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        .glitch {
+            margin-top: 20px;
+            position: relative;
+            color: #00ff00;
+            font-size: 3rem;
+            letter-spacing: 2px;
+            animation: glitch-animation 3s infinite;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: 'HACKER MODE';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            clip: rect(0, 900px, 0, 0);
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 red;
+            animation: glitch-before 1.5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 blue;
+            animation: glitch-after 1.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 20ch; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #00ff00; }
+        }
+
+        @keyframes glitch-animation {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitch-before {
+            0% { clip: rect(10px, 1000px, 140px, 0); }
+            50% { clip: rect(200px, 1000px, 200px, 0); }
+            100% { clip: rect(300px, 1000px, 40px, 0); }
+        }
+
+        @keyframes glitch-after {
+            0% { clip: rect(180px, 1000px, 230px, 0); }
+            50% { clip: rect(50px, 1000px, 80px, 0); }
+            100% { clip: rect(100px, 1000px, 300px, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1 class="typewriter-text">Accessing System...</h1>
+        <h1 class="typewriter-text" style="animation-delay: 4s;">Authorization: Granted</h1>
+        <h1 class="glitch">HACKER MODE</h1>
+    </div>
+</body>
+</html>
