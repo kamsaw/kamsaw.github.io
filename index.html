@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kamil "Kamsaw" Sawicki — Offensive Security Architect</title>
+    <title>Kamil Sawicki — Offensive Security Architect</title>
     <meta name="description" content="Cyberpunk portfolio of an offensive cloud architect and pentester: OSCP, CEH Master, CPTS, CWEE, AWS, GCP, Azure Architect, CKA, CKAD, CKS.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -516,8 +516,8 @@
 
     <header>
         <div class="hero">
-            <div class="glitch-text" data-text="Kamil \"KamSaw\" Sawicki">
-                <h1><span>kamsaw://</span><span>Kamil "KamSaw" Sawicki</span></h1>
+            <div class="glitch-text" data-text="Kamil Sawicki">
+                <h1><span>kamil-sawicki://</span><span>Kamil Sawicki</span></h1>
             </div>
             <p style="margin: 0; font-size: 1.05rem; color: var(--text-muted); line-height: 1.6;">
                 Offensive security architect steering clouds through chaos. Certified across <strong>OSCP</strong>, <strong>CEH Master</strong>, <strong>CPTS</strong>, <strong>CWEE</strong>, <strong>AWS/GCP/Azure Architect</strong>, <strong>CKA</strong>, <strong>CKAD</strong>, and <strong>CKS</strong>.
@@ -588,7 +588,7 @@
                     <h3>LinkedIn /intel</h3>
                     <p>Cloud offensive security intel and strategic updates.</p>
                 </div>
-                <div class="card" data-link="https://github.com/kamsaw">
+                <div class="card" data-link="https://github.com/kamil-sawicki">
                     <h3>GitHub /labs</h3>
                     <p>Experiments, exploit PoCs, and automation for Kubernetes &amp; CloudSec.</p>
                 </div>
@@ -597,7 +597,7 @@
     </main>
 
     <footer>
-        <p>&copy; <span id="year"></span> Kamil "KamSaw" Sawicki. All ops logged &amp; monitored. | <a href="mailto:****@****.***">Contact</a></p>
+        <p>&copy; <span id="year"></span> Kamil Sawicki. All ops logged &amp; monitored. | <a href="mailto:****@****.***">Contact</a></p>
     </footer>
 
     <script>
@@ -639,13 +639,13 @@
         // Terminal typewriter feed
         const terminalLog = document.getElementById('terminalLog');
         const terminalMessages = [
-            { prompt: 'root@kamsaw:~#', command: 'nmap -sC -sV critical.cloud', output: 'IAM misconfiguration identified. Severity: critical.' },
-            { prompt: 'root@kamsaw:~#', command: 'kubectl get pods -A --kube-hunter', output: 'Privilege escalation path via kubelet API exposed.' },
-            { prompt: 'root@kamsaw:~#', command: 'ansible-playbook harden.yml', output: 'CIS Benchmarks enforced 100%. Drift: 0.' },
-            { prompt: 'root@kamsaw:~#', command: 'aws iam simulate-custom-policy', output: 'Cross-account policy weakness detected. Neutralized.' },
-            { prompt: 'root@kamsaw:~#', command: 'python exploit.py --target gcp-func', output: 'Achieved RCE in Google Cloud Functions. CERT report filed.' },
-            { prompt: 'root@kamsaw:~#', command: 'azure security-baseline --enforce', output: 'TLS 1.2+ enforced; legacy endpoints eradicated.' },
-            { prompt: 'root@kamsaw:~#', command: 'helm upgrade shield stack', output: 'Kubernetes cluster hardened. Policy-as-Code wired into GitOps.' }
+            { prompt: 'root@kamil-sawicki:~#', command: 'nmap -sC -sV critical.cloud', output: 'IAM misconfiguration identified. Severity: critical.' },
+            { prompt: 'root@kamil-sawicki:~#', command: 'kubectl get pods -A --kube-hunter', output: 'Privilege escalation path via kubelet API exposed.' },
+            { prompt: 'root@kamil-sawicki:~#', command: 'ansible-playbook harden.yml', output: 'CIS Benchmarks enforced 100%. Drift: 0.' },
+            { prompt: 'root@kamil-sawicki:~#', command: 'aws iam simulate-custom-policy', output: 'Cross-account policy weakness detected. Neutralized.' },
+            { prompt: 'root@kamil-sawicki:~#', command: 'python exploit.py --target gcp-func', output: 'Achieved RCE in Google Cloud Functions. CERT report filed.' },
+            { prompt: 'root@kamil-sawicki:~#', command: 'azure security-baseline --enforce', output: 'TLS 1.2+ enforced; legacy endpoints eradicated.' },
+            { prompt: 'root@kamil-sawicki:~#', command: 'helm upgrade shield stack', output: 'Kubernetes cluster hardened. Policy-as-Code wired into GitOps.' }
         ];
 
         let messageIndex = 0;
