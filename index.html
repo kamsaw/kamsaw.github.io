@@ -3,106 +3,813 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HACKER MODE</title>
+    <title>Kamil "Kamsaw" Sawicki — Offensive Security Architect</title>
+    <meta name="description" content="Cyberpunk portfolio of an offensive cloud architect and pentester: OSCP, CEH Master, CPTS, CWEE, AWS, GCP, Azure Architect, CKA, CKAD, CKS.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            color-scheme: dark;
+            --bg-main: radial-gradient(circle at 20% 20%, rgba(0, 255, 179, 0.25), transparent 35%),
+                        radial-gradient(circle at 80% 10%, rgba(0, 170, 255, 0.18), transparent 32%),
+                        #05070d;
+            --accent: #00ffb3;
+            --accent-strong: #10bfff;
+            --text-primary: #e9fbff;
+            --text-muted: #7bd4d8;
+            --card-bg: rgba(3, 9, 20, 0.86);
+            --card-border: rgba(0, 255, 179, 0.25);
+            --danger: #ff4f7b;
+            --terminal: rgba(1, 13, 24, 0.96);
+            --glow: 0 0 15px rgba(0, 255, 179, 0.35);
+            --transition: cubic-bezier(.19,1,.22,1);
+        }
+
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #000;
-            color: #00ff00;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        canvas#matrix {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
             height: 100vh;
-            overflow: hidden;
-            flex-direction: column;
+            z-index: -2;
+            opacity: 0.5;
         }
 
-        .typewriter-text {
-            font-size: 2rem;
-            letter-spacing: 2px;
-            border-right: 2px solid #00ff00;
-            white-space: nowrap;
-            overflow: hidden;
-            width: 0;
-            animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+        .noise-overlay {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            mix-blend-mode: screen;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180"%3E%3Cfilter id="n" x="0" y="0" width="100%25" height="100%25"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="5" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.18"/%3E%3C/svg%3E');
+            animation: pulse 6s infinite alternate;
         }
 
-        .glitch {
-            margin-top: 20px;
+        header {
             position: relative;
-            color: #00ff00;
-            font-size: 3rem;
-            letter-spacing: 2px;
-            animation: glitch-animation 3s infinite;
+            padding: clamp(4rem, 5vw, 6rem) clamp(1.5rem, 6vw, 6rem) 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            align-items: center;
         }
 
-        .glitch::before,
-        .glitch::after {
-            content: 'HACKER MODE';
+        .hero {
+            position: relative;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 6vw, 4.2rem);
+            margin: 0;
+            line-height: 1.1;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(0, 255, 179, 0.35);
+        }
+
+        .hero span {
+            color: var(--accent);
+        }
+
+        .badge-tray {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .badge {
+            padding: 0.35rem 0.75rem;
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: linear-gradient(145deg, rgba(0, 26, 29, 0.9), rgba(0, 38, 45, 0.35));
+            box-shadow: var(--glow);
+            transition: transform 0.35s var(--transition), box-shadow 0.35s var(--transition);
+        }
+
+        .badge:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 0 22px rgba(0, 255, 179, 0.45);
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .hero-actions a {
+            text-decoration: none;
+            padding: 0.9rem 1.8rem;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: transform 0.3s var(--transition), box-shadow 0.3s var(--transition);
+        }
+
+        .hero-actions a.primary {
+            background: linear-gradient(130deg, var(--accent), var(--accent-strong));
+            color: #011;
+            box-shadow: 0 0 25px rgba(0, 255, 179, 0.6);
+        }
+
+        .hero-actions a.secondary {
+            border-color: var(--accent-strong);
+            color: var(--text-primary);
+            background: rgba(0, 20, 33, 0.8);
+        }
+
+        .hero-actions a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 28px rgba(0, 255, 179, 0.4);
+        }
+
+        .hero-visual {
+            position: relative;
+            width: min(420px, 90vw);
+            margin-inline: auto;
+            aspect-ratio: 1;
+            border-radius: 28px;
+            border: 1px solid rgba(16, 191, 255, 0.35);
+            background: linear-gradient(160deg, rgba(0, 32, 41, 0.8), rgba(0, 18, 25, 0.5));
+            box-shadow: 0 0 45px rgba(0, 40, 60, 0.55);
+            overflow: hidden;
+        }
+
+        .hero-visual::before,
+        .hero-visual::after {
+            content: '';
             position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            clip: rect(0, 900px, 0, 0);
+            inset: -40%;
+            background: conic-gradient(from 90deg at 50% 50%, transparent 10%, rgba(16, 191, 255, 0.5), transparent 60%);
+            animation: sweep 14s linear infinite;
+            mix-blend-mode: screen;
         }
 
-        .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 red;
-            animation: glitch-before 1.5s infinite linear alternate-reverse;
+        .hero-visual::after {
+            animation-duration: 20s;
+            animation-direction: reverse;
+            filter: hue-rotate(120deg);
         }
 
-        .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 blue;
-            animation: glitch-after 1.5s infinite linear alternate-reverse;
+        .avatar {
+            position: absolute;
+            inset: 12%;
+            border-radius: 22px;
+            border: 1px solid rgba(0, 255, 179, 0.45);
+            backdrop-filter: blur(8px);
+            background: rgba(0, 15, 22, 0.85);
+            display: grid;
+            place-content: center;
+            text-align: center;
+            gap: 0.75rem;
+            padding: 1.6rem;
         }
 
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 20ch; }
+        .avatar .initials {
+            font-size: 4rem;
+            letter-spacing: 0.12em;
+            text-shadow: 0 0 25px rgba(0, 255, 179, 0.55);
         }
 
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: #00ff00; }
+        .avatar p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
 
-        @keyframes glitch-animation {
+        main {
+            display: grid;
+            gap: 4rem;
+            padding: 0 clamp(1.5rem, 6vw, 6rem) 4rem;
+        }
+
+        section {
+            position: relative;
+            padding: clamp(2rem, 4vw, 3.2rem);
+            border-radius: 26px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            box-shadow: var(--glow);
+            overflow: hidden;
+        }
+
+        section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(120deg, rgba(0, 255, 179, 0.08), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        section.active::after {
+            opacity: 1;
+        }
+
+        h2 {
+            margin: 0 0 1.5rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        h2 span {
+            display: inline-block;
+            width: 36px;
+            height: 1px;
+            background: var(--accent-strong);
+        }
+
+        .terminal {
+            background: var(--terminal);
+            border-radius: 18px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 179, 0.12);
+            box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.6);
+            min-height: 200px;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-strong);
+            box-shadow: 0 0 15px rgba(16, 191, 255, 0.6);
+        }
+
+        .terminal-log {
+            display: grid;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .terminal-line {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .prompt {
+            color: var(--accent);
+        }
+
+        .command-output {
+            color: var(--text-muted);
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid.cols-2 {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .grid.cols-3 {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .card {
+            position: relative;
+            padding: 1.6rem;
+            border: 1px solid rgba(0, 255, 179, 0.18);
+            border-radius: 18px;
+            background: rgba(0, 22, 33, 0.65);
+            backdrop-filter: blur(6px);
+            transition: transform 0.4s var(--transition), border 0.4s var(--transition);
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: -120% 40% 40% -120%;
+            background: linear-gradient(90deg, transparent, rgba(16, 191, 255, 0.35), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: rgba(16, 191, 255, 0.6);
+        }
+
+        .card:hover::before {
+            transform: translateX(80%);
+        }
+
+        .card h3 {
+            margin: 0 0 0.75rem;
+            font-size: 1.15rem;
+            letter-spacing: 0.08em;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 1.5rem;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0.4rem;
+            bottom: 0.4rem;
+            width: 2px;
+            background: linear-gradient(180deg, transparent, rgba(0, 255, 179, 0.8), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.1rem;
+            top: 0.35rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid var(--accent);
+            background: rgba(0, 255, 179, 0.25);
+            box-shadow: 0 0 12px rgba(0, 255, 179, 0.6);
+        }
+
+        .timeline-item h4 {
+            margin: 0 0 0.3rem;
+            letter-spacing: 0.06em;
+        }
+
+        .timeline-item span {
+            display: inline-block;
+            margin-bottom: 0.6rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .skills-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+        }
+
+        .skills-cloud button {
+            border: 1px solid rgba(16, 191, 255, 0.35);
+            background: rgba(0, 30, 45, 0.65);
+            color: var(--text-primary);
+            border-radius: 999px;
+            padding: 0.55rem 1.1rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            transition: transform 0.35s var(--transition), background 0.35s var(--transition);
+        }
+
+        .skills-cloud button.active,
+        .skills-cloud button:hover {
+            transform: translateY(-3px);
+            background: rgba(16, 191, 255, 0.2);
+        }
+
+        .skill-output {
+            margin-top: 1.4rem;
+            padding: 1.2rem;
+            min-height: 110px;
+            border: 1px dashed rgba(0, 255, 179, 0.3);
+            border-radius: 18px;
+            background: rgba(0, 25, 32, 0.6);
+            color: var(--text-muted);
+            line-height: 1.4;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            padding: 3rem 1.5rem 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: text-shadow 0.3s ease;
+        }
+
+        footer a:hover {
+            text-shadow: 0 0 8px rgba(0, 255, 179, 0.6);
+        }
+
+        @keyframes sweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.1; }
+            to { opacity: 0.25; }
+        }
+
+        @keyframes glitch {
             0% { transform: translate(0); }
             20% { transform: translate(-2px, 2px); }
             40% { transform: translate(2px, -2px); }
-            60% { transform: translate(-2px, -2px); }
-            80% { transform: translate(2px, 2px); }
+            60% { transform: translate(-1px, -2px); }
+            80% { transform: translate(2px, 1px); }
             100% { transform: translate(0); }
         }
 
-        @keyframes glitch-before {
-            0% { clip: rect(10px, 1000px, 140px, 0); }
-            50% { clip: rect(200px, 1000px, 200px, 0); }
-            100% { clip: rect(300px, 1000px, 40px, 0); }
+        .glitch-text {
+            position: relative;
+            display: inline-block;
         }
 
-        @keyframes glitch-after {
-            0% { clip: rect(180px, 1000px, 230px, 0); }
-            50% { clip: rect(50px, 1000px, 80px, 0); }
-            100% { clip: rect(100px, 1000px, 300px, 0); }
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0.7;
+        }
+
+        .glitch-text::before {
+            color: rgba(16, 191, 255, 0.75);
+            transform: translate(2px, -2px);
+            mix-blend-mode: screen;
+        }
+
+        .glitch-text::after {
+            color: rgba(255, 79, 123, 0.5);
+            transform: translate(-2px, 2px);
+            mix-blend-mode: lighten;
+        }
+
+        .glitch-text span {
+            animation: glitch 1.5s infinite steps(2, end);
+        }
+
+        @media (max-width: 720px) {
+            header {
+                padding-top: 3.5rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .hero-actions a {
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="content">
-        <h1 class="typewriter-text">Accessing System...</h1>
-        <h1 class="typewriter-text" style="animation-delay: 4s;">Authorization: Granted</h1>
-        <h1 class="glitch">HACKER MODE</h1>
-    </div>
+    <canvas id="matrix" aria-hidden="true"></canvas>
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+    <header>
+        <div class="hero">
+            <div class="glitch-text" data-text="Kamil \"Kamsaw\" Sawicki">
+                <h1><span>kamsaw://</span><span>Kamil "Kamsaw" Sawicki</span></h1>
+            </div>
+            <p style="margin: 0; font-size: 1.05rem; color: var(--text-muted); line-height: 1.6;">
+                Offensive security architect steering clouds through chaos. Certified across <strong>OSCP</strong>, <strong>CEH Master</strong>, <strong>CPTS</strong>, <strong>CWEE</strong>, <strong>AWS/GCP/Azure Architect</strong>, <strong>CKA</strong>, <strong>CKAD</strong>, and <strong>CKS</strong>.
+            </p>
+            <div class="badge-tray" role="list" aria-label="Core certifications">
+                <span class="badge">OSCP</span>
+                <span class="badge">CEH Master</span>
+                <span class="badge">CPTS</span>
+                <span class="badge">CWEE</span>
+                <span class="badge">AWS Architect Pro</span>
+                <span class="badge">GCP Architect</span>
+                <span class="badge">Azure Architect Expert</span>
+                <span class="badge">CKA</span>
+                <span class="badge">CKAD</span>
+                <span class="badge">CKS</span>
+            </div>
+            <div class="hero-actions">
+                <a class="primary" href="mailto:kamsaw@protonmail.com">Initiate contact</a>
+                <a class="secondary" href="#achievements">Review operations</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="avatar">
+                <div class="initials">KS</div>
+                <p>Threat Hunter • Offensive Cloud Architect • Trainer</p>
+                <p style="font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);">Status: On Mission</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="terminal">
+            <h2><span></span>Live Recon Feed</h2>
+            <div class="terminal" aria-live="polite">
+                <div class="terminal-header">
+                    <div class="terminal-dot" style="background:#ff4f7b; box-shadow:0 0 8px rgba(255,79,123,0.7);"></div>
+                    <div class="terminal-dot"></div>
+                    <div class="terminal-dot" style="background:#f7ff4f; box-shadow:0 0 8px rgba(247,255,79,0.7);"></div>
+                </div>
+                <div class="terminal-log" id="terminalLog"></div>
+            </div>
+        </section>
+
+        <section id="achievements">
+            <h2><span></span>Operations • Red Team • Cloud</h2>
+            <div class="grid cols-3" id="achievementGrid"></div>
+        </section>
+
+        <section id="experience">
+            <h2><span></span>PenTest trajectory</h2>
+            <div class="timeline" id="timeline"></div>
+        </section>
+
+        <section id="skills">
+            <h2><span></span>Tool arsenal</h2>
+            <div class="skills-cloud" id="skillsCloud"></div>
+            <div class="skill-output" id="skillOutput">Select a capability to reveal mission intel.</div>
+        </section>
+
+        <section id="signals">
+            <h2><span></span>Signal channels</h2>
+            <div class="grid cols-2">
+                <div class="card" data-link="mailto:kamsaw@protonmail.com">
+                    <h3>Encrypted email</h3>
+                    <p>kamsaw@protonmail.com<br><span style="color:var(--accent);">PGP channel preferred.</span></p>
+                </div>
+                <div class="card" data-link="https://www.linkedin.com/in/kamsaw">
+                    <h3>LinkedIn /intel</h3>
+                    <p>Cloud offensive security intel and strategic updates.</p>
+                </div>
+                <div class="card" data-link="https://github.com/kamsaw">
+                    <h3>GitHub /labs</h3>
+                    <p>Experiments, exploit PoCs, and automation for Kubernetes &amp; CloudSec.</p>
+                </div>
+                <div class="card" data-link="https://tryhackme.com/p/kamsaw">
+                    <h3>TryHackMe /scoreboard</h3>
+                    <p>Offensive ops, ranked paths, and hands-on labs.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Kamil "Kamsaw" Sawicki. All ops logged &amp; monitored. | <a href="mailto:kamsaw@protonmail.com">Contact</a></p>
+    </footer>
+
+    <script>
+        // Matrix rain background
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        const matrixChars = 'アカサタナハマヤラワ0123456789█▓▒░ABCDEFGHJKLMNPQRSTUVWXYZ<>/\\';
+        let drops = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const columns = Math.floor(canvas.width / 16) + 1;
+            drops = new Array(columns).fill(1);
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 5, 12, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ffb3';
+            ctx.font = '18px "JetBrains Mono"';
+
+            drops.forEach((y, index) => {
+                const text = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
+                const x = index * 16;
+                ctx.fillText(text, x, y);
+                if (y > canvas.height && Math.random() > 0.975) {
+                    drops[index] = 0;
+                }
+                drops[index] = y + 16;
+            });
+        }
+
+        resizeCanvas();
+        drawMatrix();
+        setInterval(drawMatrix, 60);
+        window.addEventListener('resize', resizeCanvas);
+
+        // Terminal typewriter feed
+        const terminalLog = document.getElementById('terminalLog');
+        const terminalMessages = [
+            { prompt: 'root@kamsaw:~#', command: 'nmap -sC -sV critical.cloud', output: 'IAM misconfiguration identified. Severity: critical.' },
+            { prompt: 'root@kamsaw:~#', command: 'kubectl get pods -A --kube-hunter', output: 'Privilege escalation path via kubelet API exposed.' },
+            { prompt: 'root@kamsaw:~#', command: 'ansible-playbook harden.yml', output: 'CIS Benchmarks enforced 100%. Drift: 0.' },
+            { prompt: 'root@kamsaw:~#', command: 'aws iam simulate-custom-policy', output: 'Cross-account policy weakness detected. Neutralized.' },
+            { prompt: 'root@kamsaw:~#', command: 'python exploit.py --target gcp-func', output: 'Achieved RCE in Google Cloud Functions. CERT report filed.' },
+            { prompt: 'root@kamsaw:~#', command: 'azure security-baseline --enforce', output: 'TLS 1.2+ enforced; legacy endpoints eradicated.' },
+            { prompt: 'root@kamsaw:~#', command: 'helm upgrade shield stack', output: 'Kubernetes cluster hardened. Policy-as-Code wired into GitOps.' }
+        ];
+
+        let messageIndex = 0;
+
+        function printMessage() {
+            const { prompt, command, output } = terminalMessages[messageIndex];
+            const line = document.createElement('div');
+            line.classList.add('terminal-line');
+            line.innerHTML = `<span class="prompt">${prompt}</span><span>${command}</span>`;
+
+            const result = document.createElement('div');
+            result.classList.add('command-output');
+            result.textContent = `⇢ ${output}`;
+
+            terminalLog.appendChild(line);
+            terminalLog.appendChild(result);
+            terminalLog.scrollTop = terminalLog.scrollHeight;
+
+            messageIndex = (messageIndex + 1) % terminalMessages.length;
+        }
+
+        printMessage();
+        setInterval(printMessage, 3200);
+
+        // Achievements grid
+        const achievements = [
+            {
+                title: 'Adversary simulation for fintech',
+                description: 'Full reconstruction of the MITRE ATT&CK kill chain. Data exfiltration detected only after the XDR alerts I engineered fired.'
+            },
+            {
+                title: 'Zero Trust hybrid cloud',
+                description: 'Designed multi-cloud architecture (AWS/GCP/Azure) with Terraform + OPA. Audit outcome: zero critical gaps, incident detection time cut by 62%.'
+            },
+            {
+                title: 'Bug bounty command center',
+                description: 'Led elite bug hunters. Delivered 14 CVSS 9+ reports. Automated triage with Python &amp; Lambda.'
+            },
+            {
+                title: 'Offensive training labs',
+                description: 'Authored Kubernetes Red Team workshops. 120+ specialists trained, satisfaction score 4.97/5.'
+            },
+            {
+                title: 'Blue &amp; Purple team fusion',
+                description: 'Built SOC-as-Code. Integrated SIEM, SOAR, and MITRE D3FEND. Reduced incident response time to 11 minutes.'
+            },
+            {
+                title: 'Response automation',
+                description: 'Deployed serverless playbooks reacting to IOC. Real-time mitigation for K8s and CI/CD breaches.'
+            },
+            {
+                title: 'Threat intelligence lab',
+                description: 'Labs powered by ML to correlate TTP. Authored 3 new detection playbooks for supply-chain attacks.'
+            },
+            {
+                title: 'Red team in OT/ICS',
+                description: 'Simulated intrusions across industrial infrastructure. Validated SCADA defenses and network segmentation.'
+            },
+            {
+                title: 'Cloud forensics',
+                description: 'Rapid incident response. Secured S3, GCS, and Blob Storage artifacts within 30 minutes of alerting.'
+            }
+        ];
+
+        const achievementGrid = document.getElementById('achievementGrid');
+        achievements.forEach((item, index) => {
+            const card = document.createElement('article');
+            card.className = 'card reveal';
+            card.innerHTML = `<h3>${item.title}</h3><p>${item.description}</p>`;
+            card.style.animationDelay = `${index * 0.08}s`;
+            achievementGrid.appendChild(card);
+        });
+
+        // Timeline data
+        const timelineData = [
+            {
+                year: '2024',
+                title: 'Lead Offensive Cloud Architect',
+                detail: 'Designed detection platforms for Kubernetes and serverless workloads. Authored threat playbooks.'
+            },
+            {
+                year: '2022',
+                title: 'Principal Security Consultant',
+                detail: 'Drove security transformations for finance. Led ISO and SOC 2 certification initiatives.'
+            },
+            {
+                year: '2020',
+                title: 'Senior Red Teamer',
+                detail: 'Ran APT simulations, built purple team capabilities, automated exploits for CI/CD.'
+            },
+            {
+                year: '2018',
+                title: 'Cloud Security Engineer',
+                detail: 'Implemented container-native security architecture. Hardened Kubernetes and CSPM coverage.'
+            },
+            {
+                year: '2015',
+                title: 'Security Analyst',
+                detail: 'Investigated incidents, led threat hunting, built tooling in Python and Go.'
+            }
+        ];
+
+        const timeline = document.getElementById('timeline');
+        timelineData.forEach(item => {
+            const block = document.createElement('div');
+            block.className = 'timeline-item reveal';
+            block.innerHTML = `<span>${item.year}</span><h4>${item.title}</h4><p>${item.detail}</p>`;
+            timeline.appendChild(block);
+        });
+
+        // Skills interactive cloud
+        const skillIntel = {
+            'Offensive CloudOps': 'Red teaming AWS, GCP, and Azure estates. Blending Pacu, Prowler, GCloud Footprint, and Steampipe.',
+            'Kubernetes': 'Abusing RBAC, mutating webhooks, and hardening OPA/Gatekeeper. Author of kube-bench and kube-hunter enhancements.',
+            'DevSecOps': 'Pipelines across GitHub Actions and GitLab. SAST/DAST/IaC scanning, policy-as-code, container isolation.',
+            'Malware Analysis': 'Reverse engineering, YARA, Ghidra, custom sandboxes. Shipping detections for EDR/XDR.',
+            'Incident Response': 'Runbooks, SOAR automation, real-time telemetry exfiltration from cloud providers.',
+            'Zero Trust': 'Microservice segmentation, mTLS, cert-manager, ABAC policies, BeyondCorp patterns.',
+            'Threat Intel': 'CTI pipelines with MISP, Sigma, MITRE ATT&CK + D3FEND. ML-powered TTP correlation.',
+            'Training': 'OSCP/CEH workshops, CTF ranges, mentorship in exploit development and cloud defense.'
+        };
+
+        const skillsCloud = document.getElementById('skillsCloud');
+        const skillOutput = document.getElementById('skillOutput');
+
+        Object.entries(skillIntel).forEach(([skill, intel], index) => {
+            const button = document.createElement('button');
+            button.textContent = skill;
+            button.setAttribute('type', 'button');
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.skills-cloud button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                skillOutput.textContent = intel;
+            });
+            button.style.animationDelay = `${index * 0.05}s`;
+            skillsCloud.appendChild(button);
+        });
+
+        // Interactive cards linking out
+        document.querySelectorAll('.card[data-link]').forEach(card => {
+            card.addEventListener('click', () => {
+                const target = card.getAttribute('data-link');
+                window.open(target, '_blank');
+            });
+        });
+
+        // Intersection observer for reveal animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('section, .reveal').forEach(el => observer.observe(el));
+
+        // Footer year update
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
